@@ -1,8 +1,8 @@
-const DoctorsPage = require("../../pages/doctors.page");
+const BaseComponent = require("./../common/base.component");
 
-class ListHeaderComponent {
-  get rootEl() {
-    return $(".specialization-types");
+class ListHeaderComponent extends BaseComponent {
+  constructor() {
+    super(".specialization-types");
   }
 
   get addNewDoctorBtn() {
