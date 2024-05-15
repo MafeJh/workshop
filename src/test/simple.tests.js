@@ -1,8 +1,12 @@
+const DashboardPage = require("./../po/pages/dashboard.page");
+const DoctorsPage = require("./../po/pages/doctors.page");
+
+const dashboardPage = new DashboardPage();
+const doctorsPage = new DoctorsPage();
+
 describe("Doctors page", () => {
   beforeEach(async () => {
-    await browser.url(
-      "https://ej2.syncfusion.com/showcase/angular/appointmentplanner/#/dashboard"
-    );
+    await dashboardPage.open();
   });
 
   it("Check page title", async () => {
@@ -13,20 +17,17 @@ describe("Doctors page", () => {
 
   it("Open modal window for adding a new doctor", async () => {
     // click on doctors item in the side menu
-    await $('[routerlink="/doctors"]').click();
+    await dashboardPage.sideMenu.item("doctors").click();
     // click on add new doctor btn
-    await $(".specialization-types button.e-normal").click();
+    await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
     //check that a modal window is displayed
-    await expect($(".new-doctor-dialog#dialog_757320498_0")).toBeDisplayed();
+    await expect(doctorsPage.addDoctorModal.rootEl).toBeDisplayed();
   });
 
   it("Add a new doctor", async () => {
-    // click on doctors item in the side menu
-    await $('[routerlink="/doctors"]').click();
-    // click on add new doctor btn
-    await $(".specialization-types button.e-normal").click();
-    // wait for visibility of modal window
-    await $(".new-doctor-dialog#dialog_757320498_0").waitForDisplayed();
+    await dashboardPage.sideMenu.item("doctors").click();
+    await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
+    await doctorsPage.addDoctorModal.rootEl.waitForDisplayed();
 
     await $('[name="Name"]').setValue("Odin");
     await $("#DoctorMobile").setValue("1111111111");
@@ -46,7 +47,7 @@ describe("Doctors page", () => {
 
   it("Close a modal window for adding a new doctor", async () => {
     await $('[routerlink="/doctors"]').click();
-    await $(".specialization-types button.e-normal").click();
+    await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
     await $(".new-doctor-dialog#dialog_757320498_0").waitForDisplayed();
     await $(
       ".new-doctor-dialog#dialog_757320498_0 .e-dlg-closeicon-btn"
